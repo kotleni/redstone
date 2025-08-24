@@ -21,6 +21,7 @@ import Image from 'next/image';
 import Logo from '@/images/logo.webp';
 import {DashboardContent} from '@/app/dashboard-content';
 import {ConfigurationContent} from '@/app/configuration-content';
+import {PlusIcon} from 'lucide-react';
 
 export default function Home() {
     const [value, setValue] = useState('1');
@@ -71,6 +72,10 @@ export default function Home() {
                         >
                             <MenuItem value={10}>
                                 {selectedInstance?.name}
+                            </MenuItem>
+                            <MenuItem value={9999}>
+                                <PlusIcon />
+                                Create new
                             </MenuItem>
                         </Select>
                     </FormControl>
