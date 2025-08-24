@@ -1,6 +1,17 @@
 'use client';
 
-import {Alert, Box, Button, CircularProgress, Stack} from '@mui/material';
+import {
+    Alert,
+    Box,
+    Button,
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Stack,
+} from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -14,6 +25,8 @@ import {fetchInstanceState} from '@/actions/fetch-instance-state';
 import {InstanceStatus} from '@/data/instance-status';
 import Image from 'next/image';
 import Logo from '@/images/logo.webp';
+import {Core} from '@/services/cores-service';
+import {fetchAvailableCores} from '@/actions/fetch-available-cores';
 
 interface DashboardContentProps {
     instance: Instance | undefined;
@@ -42,12 +55,12 @@ function DashboardContent({instance}: DashboardContentProps) {
                 className="flex flex-col gap-2"
                 hidden={instanceState === undefined}
             >
-                <Alert
-                    icon={<ReportProblemIcon fontSize="inherit" />}
-                    severity="error"
-                >
-                    You have no any downloaded java runtimes yet.
-                </Alert>
+                {/*<Alert*/}
+                {/*    icon={<ReportProblemIcon fontSize="inherit" />}*/}
+                {/*    severity="error"*/}
+                {/*>*/}
+                {/*    You need to install Java runtime first.*/}
+                {/*</Alert>*/}
                 <Alert
                     icon={<ReportProblemIcon fontSize="inherit" />}
                     severity="error"
@@ -90,6 +103,94 @@ function DashboardContent({instance}: DashboardContentProps) {
                     </p>
                 </Stack>
             </div>
+        </div>
+    );
+}
+
+interface ConfigurationContentProps {
+    instance: Instance | undefined;
+}
+
+function ConfigurationContent({instance}: ConfigurationContentProps) {
+    const [avalableCores, setAvailableCores] = useState<Core[]>([]);
+    const [selectedCore, setSelectedCore] = useState<Core | undefined>(
+        undefined,
+    );
+    const [selectedVersion, setSelectedVersion] = useState('');
+
+    const getAvailableCores = async () => {
+        const availableCores = await fetchAvailableCores();
+        setAvailableCores(availableCores);
+        if (availableCores.length > 0) setSelectedCore(availableCores[0]);
+    };
+
+    const handleChangeCore = (event: SelectChangeEvent) => {
+        setSelectedCore(avalableCores[parseInt(event.target.value)]);
+    };
+
+    const handleChangeVersion = (event: SelectChangeEvent) => {
+        setSelectedVersion(event.target.value as string);
+    };
+
+    useEffect(() => {
+        void getAvailableCores();
+    }, [instance?.id]);
+
+    return (
+        <div className="flex flex-col gap-2">
+            <Alert
+                icon={<ReportProblemIcon fontSize="inherit" />}
+                severity="error"
+            >
+                You need to install core first.
+            </Alert>
+
+            <FormControl fullWidth>
+                <InputLabel id="select-label-core">Core</InputLabel>
+                <Select
+                    labelId="select-label-core"
+                    id="select-core"
+                    value={selectedCore?.name ?? ''}
+                    label="Core"
+                    onChange={handleChangeCore}
+                >
+                    {avalableCores.map((core, index) => {
+                        return (
+                            <MenuItem key={index} value={core.name}>
+                                {core.name}
+                            </MenuItem>
+                        );
+                    })}
+                </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <InputLabel id="select-label-version">Version</InputLabel>
+                <Select
+                    labelId="select-label-version"
+                    id="select-version"
+                    value={selectedVersion}
+                    label="Version"
+                    onChange={handleChangeVersion}
+                >
+                    {selectedCore?.versions?.map((version, index) => {
+                        return (
+                            <MenuItem key={index} value={version}>
+                                {version}
+                            </MenuItem>
+                        );
+                    })}
+                </Select>
+            </FormControl>
+
+            <Button
+                variant="contained"
+                disabled={
+                    selectedCore === undefined || selectedVersion.length === 0
+                }
+            >
+                Download & Install
+            </Button>
         </div>
     );
 }
@@ -147,14 +248,16 @@ export default function Home() {
                             >
                                 <Tab label="Dashboard" value="1" />
                                 <Tab label="Configuration" value="2" />
-                                <Tab label="Downloads" value="3" />
+                                {/*<Tab label="Downloads" value="3" />*/}
                             </TabList>
                         </Box>
                         <TabPanel value="1">
                             <DashboardContent instance={selectedInstance} />
                         </TabPanel>
-                        <TabPanel value="2">Item Two</TabPanel>
-                        <TabPanel value="3">Item Three</TabPanel>
+                        <TabPanel value="2">
+                            <ConfigurationContent instance={selectedInstance} />
+                        </TabPanel>
+                        {/*<TabPanel value="3">Item Three</TabPanel>*/}
                     </TabContext>
                 </div>
             </div>
