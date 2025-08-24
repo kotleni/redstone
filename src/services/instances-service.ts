@@ -8,6 +8,7 @@ export class InstancesService {
             {
                 id: 'unique-id-1',
                 name: 'My server 1',
+                coreName: 'spigot',
                 versionName: '1.12.2',
             },
         ];

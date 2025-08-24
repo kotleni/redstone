@@ -15,6 +15,7 @@ export interface ServerProperties {
     playerIdleTimeout: number;
     levelName: string;
     motd: string;
+    spawnMonsters: boolean;
     announcePlayerAchievements: boolean;
     forceGamemode: string;
     hardcore: boolean;
