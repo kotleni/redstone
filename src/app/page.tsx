@@ -1,6 +1,14 @@
 'use client';
 
-import {Alert, Box, CircularProgress} from '@mui/material';
+import {
+    Alert,
+    Box,
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+} from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -48,9 +56,24 @@ export default function Home() {
                 >
                     You have no any instances yet.
                 </Alert>
-                <div className="flex flex-row gap-2 items-center">
+                <div className="flex flex-row gap-2 items-center justify-between">
                     <Image src={Logo} width={26} height={26} alt="Logo" />
-                    {selectedInstance?.name}
+                    <FormControl variant="filled">
+                        <InputLabel id="demo-simple-select-label">
+                            Instance
+                        </InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={10}
+                            label="Age"
+                            // onChange={handleChange}
+                        >
+                            <MenuItem value={10}>
+                                {selectedInstance?.name}
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
                 <div
                     hidden={
