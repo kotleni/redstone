@@ -17,6 +17,8 @@ import {
     TextField,
 } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import {fetchInstasnceProperties} from '@/actions/fetch-instance-properties';
+import {ServerProperties} from '@/data/server-properties';
 
 interface ConfigurationContentProps {
     instance: Instance | undefined;
@@ -30,6 +32,8 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
     const [selectedVersion, setSelectedVersion] = useState(
         instance?.versionName ?? '',
     );
+    const [serverProperties, setServerProperties] =
+        useState<ServerProperties>();
 
     const getAvailableCores = async () => {
         const availableCores = await fetchAvailableCores();
@@ -42,6 +46,11 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
         else if (availableCores.length > 0) setSelectedCore(availableCores[0]);
     };
 
+    const getServerProperties = async () => {
+        const properties = await fetchInstasnceProperties(instance?.id ?? '');
+        setServerProperties(properties);
+    };
+
     const handleChangeCore = (event: SelectChangeEvent) => {
         setSelectedCore(avalableCores[parseInt(event.target.value)]);
     };
@@ -52,6 +61,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
 
     useEffect(() => {
         void getAvailableCores();
+        void getServerProperties();
     }, [instance?.id]);
 
     return (
@@ -115,22 +125,44 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
             <Stack
                 direction="row"
                 spacing={2}
-                className="w-full items-stretch justify-stretch"
+                className="w-full items-stretch justify-stretch pb-1"
             >
                 <TextField
-                    variant="outlined"
-                    placeholder="Server name"
+                    variant="filled"
+                    label="Server name"
                     className="grow"
+                    value={serverProperties?.motd.toString()}
+                    onChange={e => {
+                        setServerProperties({
+                            ...serverProperties!,
+                            motd: e.target.value,
+                        });
+                    }}
                 />
                 <TextField
-                    variant="outlined"
-                    placeholder="Server ip"
+                    variant="filled"
+                    label="Server ip"
                     className="grow"
+                    value={serverProperties?.serverIp.toString()}
+                    onChange={e => {
+                        setServerProperties({
+                            ...serverProperties!,
+                            serverIp: e.target.value,
+                        });
+                    }}
                 />
                 <TextField
-                    variant="outlined"
-                    placeholder="Server port"
+                    variant="filled"
+                    label="Server port"
                     className="grow"
+                    type="number"
+                    value={serverProperties?.serverPort.toString()}
+                    onChange={e => {
+                        setServerProperties({
+                            ...serverProperties!,
+                            serverPort: parseInt(e.target.value),
+                        });
+                    }}
                 />
             </Stack>
             <Stack
@@ -138,9 +170,95 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                 spacing={2}
                 className="w-full items-stretch justify-stretch"
             >
-                <FormControlLabel control={<Switch />} label="Online mode" />
-                <FormControlLabel control={<Switch />} label="PVP" />
-                <FormControlLabel control={<Switch />} label="Command block" />
+                <TextField
+                    variant="filled"
+                    label="Gamemode"
+                    className="grow"
+                    type="number"
+                    value={serverProperties?.gamemode.toString()}
+                    onChange={e => {
+                        setServerProperties({
+                            ...serverProperties!,
+                            gamemode: parseInt(e.target.value),
+                        });
+                    }}
+                />
+                <TextField
+                    variant="filled"
+                    label="View distance"
+                    className="grow"
+                    type="number"
+                    value={serverProperties?.viewDistance.toString()}
+                    onChange={e => {
+                        setServerProperties({
+                            ...serverProperties!,
+                            viewDistance: parseInt(e.target.value),
+                        });
+                    }}
+                />
+                <TextField
+                    variant="filled"
+                    label="Max players"
+                    className="grow"
+                    type="number"
+                    value={serverProperties?.maxPlayers}
+                    onChange={e => {
+                        setServerProperties({
+                            ...serverProperties!,
+                            maxPlayers: parseInt(e.target.value),
+                        });
+                    }}
+                />
+            </Stack>
+            <Stack
+                direction="row"
+                spacing={2}
+                className="w-full items-stretch justify-stretch"
+            >
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={serverProperties?.onlineMode ?? false}
+                            onChange={e => {
+                                setServerProperties({
+                                    ...serverProperties!,
+                                    onlineMode: e.target.checked,
+                                });
+                            }}
+                        />
+                    }
+                    label="Online mode"
+                />
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={serverProperties?.pvp ?? false}
+                            onChange={e => {
+                                setServerProperties({
+                                    ...serverProperties!,
+                                    pvp: e.target.checked,
+                                });
+                            }}
+                        />
+                    }
+                    label="PVP"
+                />
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={
+                                serverProperties?.enableCommandBlock ?? false
+                            }
+                            onChange={e => {
+                                setServerProperties({
+                                    ...serverProperties!,
+                                    enableCommandBlock: e.target.checked,
+                                });
+                            }}
+                        />
+                    }
+                    label="Command block"
+                />
             </Stack>
 
             <Stack

@@ -60,3 +60,42 @@ export async function generateAndWriteServerProperties(
     const content = generateServerPropertiesContent(serverProperties);
     await fs.writeFile(filePath, content);
 }
+
+export function createDefaultServerProperties(): ServerProperties {
+    return {
+        allowFlight: true,
+        allowNether: true,
+        announcePlayerAchievements: true,
+        difficulty: 1,
+        enableCommandBlock: false,
+        enableQuery: true,
+        enableRcon: true,
+        forceGamemode: false,
+        gamemode: 0,
+        generateStructures: true,
+        generatorSettings: '',
+        hardcore: false,
+        levelName: 'world',
+        levelSeed: parseInt((Math.random() * 9999999).toString()),
+        levelType: 'DEFAULT',
+        maxBuildHeight: 256,
+        maxPlayers: 8,
+        maxWorldSize: 29999984,
+        motd: 'Server name',
+        networkCompressionThreshold: 256,
+        onlineMode: true,
+        opPermissionLevel: 4,
+        playerIdleTimeout: 0,
+        pvp: true,
+        resourcePack: '',
+        resourcePackHash: '',
+        serverIp: '',
+        serverPort: 25565,
+        snooperEnabled: true,
+        spawnAnimals: true,
+        spawnMonsters: true,
+        spawnNpcs: true,
+        viewDistance: 22,
+        whiteList: false,
+    };
+}

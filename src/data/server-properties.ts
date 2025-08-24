@@ -17,7 +17,7 @@ export interface ServerProperties {
     motd: string;
     spawnMonsters: boolean;
     announcePlayerAchievements: boolean;
-    forceGamemode: string;
+    forceGamemode: boolean;
     hardcore: boolean;
     whiteList: boolean;
     pvp: boolean;
@@ -32,5 +32,5 @@ export interface ServerProperties {
     onlineMode: boolean;
     allowFlight: boolean;
     resourcePackHash: string;
-    maxWorldSize: string;
+    maxWorldSize: number;
 }

@@ -1,6 +1,8 @@
 import {Instance} from '@/data/instance';
 import {InstanceStatus} from '@/data/instance-status';
 import {InstanceState} from '@/data/instance-state';
+import {ServerProperties} from '@/data/server-properties';
+import {createDefaultServerProperties} from '@/helper/server-properties-helper';
 
 export class InstancesService {
     async getAllInstances(): Promise<Instance[]> {
@@ -23,5 +25,9 @@ export class InstancesService {
             maxPlayersCount: 8,
             playersCount: 0,
         };
+    }
+
+    async getInstanceProperties(id: string): Promise<ServerProperties> {
+        return createDefaultServerProperties();
     }
 }
