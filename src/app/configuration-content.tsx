@@ -132,7 +132,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     variant="filled"
                     label="Server name"
                     className="grow"
-                    value={serverProperties?.motd.toString()}
+                    value={serverProperties?.motd.toString() ?? ''}
                     onChange={e => {
                         setServerProperties({
                             ...serverProperties!,
@@ -144,7 +144,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     variant="filled"
                     label="Server ip"
                     className="grow"
-                    value={serverProperties?.serverIp.toString()}
+                    value={serverProperties?.serverIp.toString() ?? ''}
                     onChange={e => {
                         setServerProperties({
                             ...serverProperties!,
@@ -157,7 +157,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     label="Server port"
                     className="grow"
                     type="number"
-                    value={serverProperties?.serverPort.toString()}
+                    value={serverProperties?.serverPort.toString() ?? ''}
                     onChange={e => {
                         setServerProperties({
                             ...serverProperties!,
@@ -176,7 +176,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     label="Gamemode"
                     className="grow"
                     type="number"
-                    value={serverProperties?.gamemode.toString()}
+                    value={serverProperties?.gamemode.toString() ?? ''}
                     onChange={e => {
                         setServerProperties({
                             ...serverProperties!,
@@ -189,7 +189,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     label="View distance"
                     className="grow"
                     type="number"
-                    value={serverProperties?.viewDistance.toString()}
+                    value={serverProperties?.viewDistance.toString() ?? ''}
                     onChange={e => {
                         setServerProperties({
                             ...serverProperties!,
@@ -202,7 +202,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     label="Max players"
                     className="grow"
                     type="number"
-                    value={serverProperties?.maxPlayers}
+                    value={serverProperties?.maxPlayers.toString() ?? ''}
                     onChange={e => {
                         setServerProperties({
                             ...serverProperties!,
