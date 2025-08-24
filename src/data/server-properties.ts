@@ -1,0 +1,35 @@
+export interface ServerProperties {
+    viewDistance: number;
+    maxBuildHeight: number;
+    serverIp: string;
+    levelSeed: number;
+    gamemode: number;
+    serverPort: number;
+    enableCommandBlock: boolean;
+    allowNether: boolean;
+    enableRcon: boolean;
+    opPermissionLevel: number;
+    enableQuery: boolean;
+    generatorSettings: string;
+    resourcePack: string;
+    playerIdleTimeout: number;
+    levelName: string;
+    motd: string;
+    announcePlayerAchievements: boolean;
+    forceGamemode: string;
+    hardcore: boolean;
+    whiteList: boolean;
+    pvp: boolean;
+    spawnNpcs: boolean;
+    generateStructures: boolean;
+    spawnAnimals: boolean;
+    snooperEnabled: boolean;
+    difficulty: number;
+    networkCompressionThreshold: number;
+    levelType: string;
+    maxPlayers: number;
+    onlineMode: boolean;
+    allowFlight: boolean;
+    resourcePackHash: string;
+    maxWorldSize: string;
+}

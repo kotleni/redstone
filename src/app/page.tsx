@@ -5,12 +5,16 @@ import {
     Box,
     Button,
     CircularProgress,
+    Divider,
     FormControl,
+    FormControlLabel,
     InputLabel,
     MenuItem,
     Select,
     SelectChangeEvent,
     Stack,
+    Switch,
+    TextField,
 } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import Tab from '@mui/material/Tab';
@@ -191,6 +195,52 @@ function ConfigurationContent({instance}: ConfigurationContentProps) {
             >
                 Download & Install
             </Button>
+
+            <Divider orientation="horizontal" />
+
+            <Stack
+                direction="row"
+                spacing={2}
+                className="w-full items-stretch justify-stretch"
+            >
+                <TextField
+                    variant="outlined"
+                    placeholder="Server name"
+                    className="grow"
+                />
+                <TextField
+                    variant="outlined"
+                    placeholder="Server ip"
+                    className="grow"
+                />
+                <TextField
+                    variant="outlined"
+                    placeholder="Server port"
+                    className="grow"
+                />
+            </Stack>
+            <Stack
+                direction="row"
+                spacing={2}
+                className="w-full items-stretch justify-stretch"
+            >
+                <FormControlLabel control={<Switch />} label="Online mode" />
+                <FormControlLabel control={<Switch />} label="PVP" />
+                <FormControlLabel control={<Switch />} label="Command block" />
+            </Stack>
+
+            <Stack
+                direction="row"
+                spacing={2}
+                className="w-full items-stretch justifty-stretch"
+            >
+                <Button className="grow" variant="contained">
+                    Save & restart
+                </Button>
+                <Button className="grow" variant="contained">
+                    Just save
+                </Button>
+            </Stack>
         </div>
     );
 }
