@@ -35,13 +35,14 @@ export function DashboardContent({instance}: DashboardContentProps) {
             >
                 {/*<Alert*/}
                 {/*    icon={<ReportProblemIcon fontSize="inherit" />}*/}
-                {/*    severity="error"*/}
+                {/*    severity="error" variant="filled"*/}
                 {/*>*/}
                 {/*    You need to install Java runtime first.*/}
                 {/*</Alert>*/}
                 <Alert
                     icon={<ReportProblemIcon fontSize="inherit" />}
                     severity="error"
+                    variant="filled"
                 >
                     You have no any downloaded server cores yet.
                 </Alert>

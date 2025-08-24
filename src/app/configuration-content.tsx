@@ -69,6 +69,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
             <Alert
                 icon={<ReportProblemIcon fontSize="inherit" />}
                 severity="error"
+                variant="filled"
             >
                 You need to install core first.
             </Alert>
