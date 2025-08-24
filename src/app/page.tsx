@@ -12,6 +12,8 @@ import {fetchAllInstances} from '@/actions/fetch-all-instances';
 import {InstanceState} from '@/data/instance-state';
 import {fetchInstanceState} from '@/actions/fetch-instance-state';
 import {InstanceStatus} from '@/data/instance-status';
+import Image from 'next/image';
+import Logo from '@/images/logo.webp';
 
 interface DashboardContentProps {
     instance: Instance | undefined;
@@ -126,7 +128,10 @@ export default function Home() {
                 >
                     You have no any instances yet.
                 </Alert>
-                <div>{selectedInstance?.name}</div>
+                <div className="flex flex-row gap-2 items-center">
+                    <Image src={Logo} width={26} height={26} alt="Logo" />
+                    {selectedInstance?.name}
+                </div>
                 <div
                     hidden={
                         isLoading ||
