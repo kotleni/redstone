@@ -1,4 +1,5 @@
 import {ServerProperties} from '@/data/server-properties';
+import {Prisma} from '@/generated/prisma/client';
 import * as fs from 'fs/promises';
 
 function mapServerPropertiesToMojangNamedObject(
@@ -40,6 +41,12 @@ function mapServerPropertiesToMojangNamedObject(
         'allow-flight': prop.allowFlight,
         'max-world-size': prop.maxWorldSize,
     };
+}
+
+export function mapServerPropertiesFromPrismaJson(
+    json: Prisma.JsonObject,
+): ServerProperties {
+    return json as unknown as ServerProperties;
 }
 
 export function generateServerPropertiesContent(
