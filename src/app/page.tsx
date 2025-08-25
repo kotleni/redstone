@@ -72,7 +72,7 @@ export default function Home() {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={selectedInstance?.id ?? ''}
+                            value={selectedInstance?.id ?? 'create-instance'}
                             label="Instance"
                             onChange={e => {
                                 // FIXME
@@ -88,13 +88,7 @@ export default function Home() {
                         >
                             {instances.map(it => {
                                 return (
-                                    <MenuItem
-                                        key={it.name}
-                                        value={it.name}
-                                        selected={
-                                            it.name === selectedInstance?.name
-                                        }
-                                    >
+                                    <MenuItem key={it.name} value={it.name}>
                                         {it.name}
                                     </MenuItem>
                                 );
