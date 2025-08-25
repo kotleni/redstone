@@ -22,6 +22,7 @@ import Logo from '@/images/logo.webp';
 import {DashboardContent} from '@/app/dashboard-content';
 import {ConfigurationContent} from '@/app/configuration-content';
 import {PlusIcon} from 'lucide-react';
+import {createInstance} from '@/actions/create-instance';
 
 export default function Home() {
     const [value, setValue] = useState('1');
@@ -36,6 +37,11 @@ export default function Home() {
         setInstances(instances);
         if (instances.length > 0) setSelectedInstance(instances[0]);
         setIsLoading(false);
+    };
+
+    const tryCreateInstance = async () => {
+        await createInstance();
+        await getAllInstances();
     };
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -66,14 +72,34 @@ export default function Home() {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={10}
-                            label="Age"
-                            // onChange={handleChange}
+                            value={selectedInstance?.id ?? ''}
+                            label="Instance"
+                            onChange={e => {
+                                // FIXME
+                                if (e.target.value === 'create-instance') {
+                                    void tryCreateInstance();
+                                } else {
+                                    const instance = instances.find(
+                                        it => it.name === e.target.value,
+                                    );
+                                    if (instance) setSelectedInstance(instance);
+                                }
+                            }}
                         >
-                            <MenuItem value={10}>
-                                {selectedInstance?.name}
-                            </MenuItem>
-                            <MenuItem value={9999}>
+                            {instances.map(it => {
+                                return (
+                                    <MenuItem
+                                        key={it.name}
+                                        value={it.name}
+                                        selected={
+                                            it.name === selectedInstance?.name
+                                        }
+                                    >
+                                        {it.name}
+                                    </MenuItem>
+                                );
+                            })}
+                            <MenuItem value={'create-instance'}>
                                 <PlusIcon />
                                 Create new
                             </MenuItem>

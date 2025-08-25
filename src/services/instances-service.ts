@@ -11,6 +11,24 @@ import {Prisma, PrismaClient} from '@/generated/prisma/client';
 export class InstancesService {
     private prisma = new PrismaClient();
 
+    async createInstance(): Promise<Instance> {
+        const properties = createDefaultServerProperties();
+        const instance = await this.prisma.instance.create({
+            data: {
+                name: 'Unnamed ' + (Math.random() * 88888).toString(),
+                versionName: '1.12.2',
+                coreName: 'spigot',
+                properties: properties as unknown as Prisma.JsonObject,
+            },
+        });
+        return {
+            id: instance.id,
+            name: instance.name,
+            coreName: instance.coreName,
+            versionName: instance.versionName,
+        };
+    }
+
     async getAllInstances(): Promise<Instance[]> {
         const instances = await this.prisma.instance.findMany({});
         return instances.map(instance => {
