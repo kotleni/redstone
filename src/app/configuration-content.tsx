@@ -12,6 +12,7 @@ import {
     MenuItem,
     Select,
     SelectChangeEvent,
+    Snackbar,
     Stack,
     Switch,
     TextField,
@@ -25,6 +26,9 @@ interface ConfigurationContentProps {
 }
 
 export function ConfigurationContent({instance}: ConfigurationContentProps) {
+    const [snackbarMessage, setSnackbarMessage] = useState<string | undefined>(
+        undefined,
+    );
     const [avalableCores, setAvailableCores] = useState<Core[]>([]);
     const [selectedCore, setSelectedCore] = useState<Core | undefined>(
         undefined,
@@ -59,6 +63,10 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
         setSelectedVersion(event.target.value as string);
     };
 
+    const handleSave = () => {
+        setSnackbarMessage('Saved.');
+    };
+
     useEffect(() => {
         void getAvailableCores();
         void getServerProperties();
@@ -66,6 +74,15 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
 
     return (
         <div className="flex flex-col gap-2">
+            <Snackbar
+                open={snackbarMessage !== undefined}
+                onClose={() => {
+                    setSnackbarMessage(undefined);
+                }}
+                autoHideDuration={2000}
+                message={snackbarMessage ?? ''}
+            />
+
             <Alert
                 icon={<ReportProblemIcon fontSize="inherit" />}
                 severity="error"
@@ -262,18 +279,18 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                 />
             </Stack>
 
-            <Stack
-                direction="row"
-                spacing={2}
-                className="w-full items-stretch justifty-stretch"
-            >
-                <Button className="grow" variant="contained">
-                    Save & restart
+            <div className="w-full items-stretch justifty-stretch flex flex-col gap-2 pt-4">
+                <Button
+                    className="grow"
+                    variant="contained"
+                    onClick={handleSave}
+                >
+                    Save
                 </Button>
-                <Button className="grow" variant="contained">
-                    Just save
-                </Button>
-            </Stack>
+                <p className="text-neutral-200">
+                    You need to restart server after saving
+                </p>
+            </div>
         </div>
     );
 }
