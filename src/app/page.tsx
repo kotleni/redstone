@@ -80,7 +80,7 @@ export default function Home() {
                                     void tryCreateInstance();
                                 } else {
                                     const instance = instances.find(
-                                        it => it.name === e.target.value,
+                                        it => it.id === e.target.value,
                                     );
                                     if (instance) setSelectedInstance(instance);
                                 }
@@ -88,7 +88,7 @@ export default function Home() {
                         >
                             {instances.map(it => {
                                 return (
-                                    <MenuItem key={it.name} value={it.name}>
+                                    <MenuItem key={it.id} value={it.id}>
                                         {it.name}
                                     </MenuItem>
                                 );
