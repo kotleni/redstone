@@ -24,10 +24,11 @@ import {ConfigurationContent} from '@/app/configuration-content';
 import {PlusIcon} from 'lucide-react';
 import {createInstance} from '@/actions/create-instance';
 
+// FIXME: User can name his server as 'create-instance'
 const CREATE_INSTANCE = 'create-instance';
 
 export default function Home() {
-    const [value, setValue] = useState('1');
+    const [currentTab, setCurrentTab] = useState('1');
     const [isLoading, setIsLoading] = useState(true);
     const [instances, setInstances] = useState<Instance[]>([]);
     const [selectedInstance, setSelectedInstance] = useState<
@@ -46,9 +47,9 @@ export default function Home() {
         await getAllInstances();
     }, []);
 
-    const handleChange = useCallback(
+    const handleChangeTab = useCallback(
         (_: React.SyntheticEvent, newValue: string) => {
-            setValue(newValue);
+            setCurrentTab(newValue);
         },
         [],
     );
@@ -112,10 +113,10 @@ export default function Home() {
                         selectedInstance === undefined
                     }
                 >
-                    <TabContext value={value}>
+                    <TabContext value={currentTab}>
                         <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                             <TabList
-                                onChange={handleChange}
+                                onChange={handleChangeTab}
                                 aria-label="Tabs betwen main pages"
                             >
                                 <Tab label="Dashboard" value="1" />
