@@ -157,9 +157,9 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     className="grow"
                     value={serverProperties?.motd.toString() ?? ''}
                     onChange={e => {
-                        setServerProperties({
-                            ...serverProperties!,
-                            motd: e.target.value,
+                        setServerProperties(prev => {
+                            if (!prev) return prev;
+                            return {...prev, motd: e.target.value};
                         });
                     }}
                 />
@@ -169,9 +169,9 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     className="grow"
                     value={serverProperties?.serverIp.toString() ?? ''}
                     onChange={e => {
-                        setServerProperties({
-                            ...serverProperties!,
-                            serverIp: e.target.value,
+                        setServerProperties(prev => {
+                            if (!prev) return prev;
+                            return {...prev, serverIp: e.target.value};
                         });
                     }}
                 />
@@ -182,9 +182,12 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     type="number"
                     value={serverProperties?.serverPort.toString() ?? ''}
                     onChange={e => {
-                        setServerProperties({
-                            ...serverProperties!,
-                            serverPort: parseInt(e.target.value),
+                        setServerProperties(prev => {
+                            if (!prev) return prev;
+                            return {
+                                ...prev,
+                                serverPort: parseInt(e.target.value),
+                            };
                         });
                     }}
                 />
@@ -201,9 +204,12 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     type="number"
                     value={serverProperties?.gamemode.toString() ?? ''}
                     onChange={e => {
-                        setServerProperties({
-                            ...serverProperties!,
-                            gamemode: parseInt(e.target.value),
+                        setServerProperties(prev => {
+                            if (!prev) return prev;
+                            return {
+                                ...prev,
+                                gamemode: parseInt(e.target.value),
+                            };
                         });
                     }}
                 />
@@ -214,9 +220,12 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     type="number"
                     value={serverProperties?.viewDistance.toString() ?? ''}
                     onChange={e => {
-                        setServerProperties({
-                            ...serverProperties!,
-                            viewDistance: parseInt(e.target.value),
+                        setServerProperties(prev => {
+                            if (!prev) return prev;
+                            return {
+                                ...prev,
+                                viewDistance: parseInt(e.target.value),
+                            };
                         });
                     }}
                 />
@@ -227,9 +236,12 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     type="number"
                     value={serverProperties?.maxPlayers.toString() ?? ''}
                     onChange={e => {
-                        setServerProperties({
-                            ...serverProperties!,
-                            maxPlayers: parseInt(e.target.value),
+                        setServerProperties(prev => {
+                            if (!prev) return prev;
+                            return {
+                                ...prev,
+                                maxPlayers: parseInt(e.target.value),
+                            };
                         });
                     }}
                 />
@@ -244,9 +256,12 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                         <Switch
                             checked={serverProperties?.onlineMode ?? false}
                             onChange={e => {
-                                setServerProperties({
-                                    ...serverProperties!,
-                                    onlineMode: e.target.checked,
+                                setServerProperties(prev => {
+                                    if (!prev) return prev;
+                                    return {
+                                        ...prev,
+                                        onlineMode: e.target.checked,
+                                    };
                                 });
                             }}
                         />
@@ -258,9 +273,9 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                         <Switch
                             checked={serverProperties?.pvp ?? false}
                             onChange={e => {
-                                setServerProperties({
-                                    ...serverProperties!,
-                                    pvp: e.target.checked,
+                                setServerProperties(prev => {
+                                    if (!prev) return prev;
+                                    return {...prev, pvp: e.target.checked};
                                 });
                             }}
                         />
@@ -274,9 +289,12 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                                 serverProperties?.enableCommandBlock ?? false
                             }
                             onChange={e => {
-                                setServerProperties({
-                                    ...serverProperties!,
-                                    enableCommandBlock: e.target.checked,
+                                setServerProperties(prev => {
+                                    if (!prev) return prev;
+                                    return {
+                                        ...prev,
+                                        enableCommandBlock: e.target.checked,
+                                    };
                                 });
                             }}
                         />
