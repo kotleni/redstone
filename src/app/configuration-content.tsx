@@ -106,9 +106,9 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     label="Core"
                     onChange={handleChangeCore}
                 >
-                    {availableCores.map((core, index) => {
+                    {availableCores.map(core => {
                         return (
-                            <MenuItem key={index} value={core.name}>
+                            <MenuItem key={core.name} value={core.name}>
                                 {core.name}
                             </MenuItem>
                         );
@@ -125,9 +125,9 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     label="Version"
                     onChange={handleChangeVersion}
                 >
-                    {selectedCore?.versions?.map((version, index) => {
+                    {selectedCore?.versions?.map(version => {
                         return (
-                            <MenuItem key={index} value={version}>
+                            <MenuItem key={version} value={version}>
                                 {version}
                             </MenuItem>
                         );
