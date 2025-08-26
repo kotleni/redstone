@@ -59,19 +59,16 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
         (event: SelectChangeEvent) => {
             setSelectedCore(availableCores[parseInt(event.target.value)]);
         },
-        [instance],
+        [availableCores],
     );
 
-    const handleChangeVersion = useCallback(
-        (event: SelectChangeEvent) => {
-            setSelectedVersion(event.target.value as string);
-        },
-        [instance],
-    );
+    const handleChangeVersion = useCallback((event: SelectChangeEvent) => {
+        setSelectedVersion(event.target.value as string);
+    }, []);
 
     const handleSave = useCallback(() => {
         setSnackbarMessage('Saved.');
-    }, [instance]);
+    }, []);
 
     useEffect(() => {
         void getAvailableCores();
