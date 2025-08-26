@@ -1,5 +1,5 @@
 import {Instance} from '@/data/instance';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {Core} from '@/services/cores-service';
 import {fetchAvailableCores} from '@/actions/fetch-available-cores';
 import {
@@ -29,7 +29,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
     const [snackbarMessage, setSnackbarMessage] = useState<string | undefined>(
         undefined,
     );
-    const [avalableCores, setAvailableCores] = useState<Core[]>([]);
+    const [availableCores, setAvailableCores] = useState<Core[]>([]);
     const [selectedCore, setSelectedCore] = useState<Core | undefined>(
         undefined,
     );
@@ -39,7 +39,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
     const [serverProperties, setServerProperties] =
         useState<ServerProperties>();
 
-    const getAvailableCores = async () => {
+    const getAvailableCores = useCallback(async () => {
         const availableCores = await fetchAvailableCores();
         setAvailableCores(availableCores);
 
@@ -48,24 +48,30 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
         );
         if (currentCore !== undefined) setSelectedCore(currentCore);
         else if (availableCores.length > 0) setSelectedCore(availableCores[0]);
-    };
+    }, [instance]);
 
-    const getServerProperties = async () => {
+    const getServerProperties = useCallback(async () => {
         const properties = await fetchInstasnceProperties(instance?.id ?? '');
         setServerProperties(properties);
-    };
+    }, [instance]);
 
-    const handleChangeCore = (event: SelectChangeEvent) => {
-        setSelectedCore(avalableCores[parseInt(event.target.value)]);
-    };
+    const handleChangeCore = useCallback(
+        (event: SelectChangeEvent) => {
+            setSelectedCore(availableCores[parseInt(event.target.value)]);
+        },
+        [instance],
+    );
 
-    const handleChangeVersion = (event: SelectChangeEvent) => {
-        setSelectedVersion(event.target.value as string);
-    };
+    const handleChangeVersion = useCallback(
+        (event: SelectChangeEvent) => {
+            setSelectedVersion(event.target.value as string);
+        },
+        [instance],
+    );
 
-    const handleSave = () => {
+    const handleSave = useCallback(() => {
         setSnackbarMessage('Saved.');
-    };
+    }, [instance]);
 
     useEffect(() => {
         void getAvailableCores();
@@ -100,7 +106,7 @@ export function ConfigurationContent({instance}: ConfigurationContentProps) {
                     label="Core"
                     onChange={handleChangeCore}
                 >
-                    {avalableCores.map((core, index) => {
+                    {availableCores.map((core, index) => {
                         return (
                             <MenuItem key={index} value={core.name}>
                                 {core.name}

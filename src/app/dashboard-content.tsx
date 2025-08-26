@@ -1,5 +1,5 @@
 import {Instance} from '@/data/instance';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {InstanceState} from '@/data/instance-state';
 import {fetchInstanceState} from '@/actions/fetch-instance-state';
 import {Alert, Button, CircularProgress, Stack} from '@mui/material';
@@ -15,11 +15,11 @@ export function DashboardContent({instance}: DashboardContentProps) {
         InstanceState | undefined
     >(undefined);
 
-    const getInstanceState = async () => {
+    const getInstanceState = useCallback(async () => {
         if (instance === undefined) return;
         const instanceState = await fetchInstanceState(instance.id);
         setInstanceState(instanceState);
-    };
+    }, [instance]);
 
     useEffect(() => {
         void getInstanceState();
@@ -33,12 +33,6 @@ export function DashboardContent({instance}: DashboardContentProps) {
                 className="flex flex-col gap-2"
                 hidden={instanceState === undefined}
             >
-                {/*<Alert*/}
-                {/*    icon={<ReportProblemIcon fontSize="inherit" />}*/}
-                {/*    severity="error" variant="filled"*/}
-                {/*>*/}
-                {/*    You need to install Java runtime first.*/}
-                {/*</Alert>*/}
                 <Alert
                     icon={<ReportProblemIcon fontSize="inherit" />}
                     severity="error"

@@ -14,7 +14,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Instance} from '@/data/instance';
 import {fetchAllInstances} from '@/actions/fetch-all-instances';
 import Image from 'next/image';
@@ -24,6 +24,8 @@ import {ConfigurationContent} from '@/app/configuration-content';
 import {PlusIcon} from 'lucide-react';
 import {createInstance} from '@/actions/create-instance';
 
+const CREATE_INSTANCE = 'create-instance';
+
 export default function Home() {
     const [value, setValue] = useState('1');
     const [isLoading, setIsLoading] = useState(true);
@@ -32,21 +34,24 @@ export default function Home() {
         Instance | undefined
     >(undefined);
 
-    const getAllInstances = async () => {
+    const getAllInstances = useCallback(async () => {
         const instances = await fetchAllInstances();
         setInstances(instances);
         if (instances.length > 0) setSelectedInstance(instances[0]);
         setIsLoading(false);
-    };
+    }, []);
 
-    const tryCreateInstance = async () => {
+    const tryCreateInstance = useCallback(async () => {
         await createInstance();
         await getAllInstances();
-    };
+    }, []);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
+    const handleChange = useCallback(
+        (_: React.SyntheticEvent, newValue: string) => {
+            setValue(newValue);
+        },
+        [],
+    );
 
     useEffect(() => {
         void getAllInstances();
@@ -72,11 +77,11 @@ export default function Home() {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={selectedInstance?.id ?? 'create-instance'}
+                            value={selectedInstance?.id ?? CREATE_INSTANCE}
                             label="Instance"
                             onChange={e => {
                                 // FIXME
-                                if (e.target.value === 'create-instance') {
+                                if (e.target.value === CREATE_INSTANCE) {
                                     void tryCreateInstance();
                                 } else {
                                     const instance = instances.find(
@@ -93,7 +98,7 @@ export default function Home() {
                                     </MenuItem>
                                 );
                             })}
-                            <MenuItem value={'create-instance'}>
+                            <MenuItem value={CREATE_INSTANCE}>
                                 <PlusIcon />
                                 Create new
                             </MenuItem>
@@ -115,7 +120,6 @@ export default function Home() {
                             >
                                 <Tab label="Dashboard" value="1" />
                                 <Tab label="Configuration" value="2" />
-                                {/*<Tab label="Downloads" value="3" />*/}
                             </TabList>
                         </Box>
                         <TabPanel value="1">
@@ -124,7 +128,6 @@ export default function Home() {
                         <TabPanel value="2">
                             <ConfigurationContent instance={selectedInstance} />
                         </TabPanel>
-                        {/*<TabPanel value="3">Item Three</TabPanel>*/}
                     </TabContext>
                 </div>
             </div>
